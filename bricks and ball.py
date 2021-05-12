@@ -2,15 +2,17 @@ import pygame
 import random
 pygame.init()
 
+
 #cheats/sound
-up_down = True
+up_down = False
 start_laser = False
-infinet_laser = True
+infinet_laser = False
 infinet_chest = False
 infinet_lives = False
 
 music = False
 sound = False
+
 
 background = random.randint(1,8)
 OG_background = background
@@ -183,7 +185,7 @@ class Laser(pygame.sprite.Sprite):
         #update code goes here
         keys = pygame.key.get_pressed()
         if not up_down:
-            if keys[pygame.K_UP]:
+            if keys[pygame.K_UP] or keys[pygame.K_SPACE]:
                 self.laser_mover = False            
         else:
             if keys[pygame.K_SPACE]:
