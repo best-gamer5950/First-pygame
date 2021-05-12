@@ -3,10 +3,11 @@ import random
 pygame.init()
 
 #cheats/sound
-up_down = False
+up_down = True
 start_laser = False
 infinet_laser = True
-infinet_chest = True
+infinet_chest = False
+infinet_lives = False
 
 music = False
 sound = False
@@ -34,7 +35,7 @@ screen_rect = screen.get_rect()
 clock = pygame.time.Clock()
 if start_laser and infinet_laser:
     start_laser = False
-if up_down:
+if infinet_lives:
     lives = 999999999999999999
 if music == True:
     #songs
@@ -301,7 +302,7 @@ while running:
             pygame.mixer.music.load(f"main song {song}.wav")
             pygame.mixer.music.set_volume(0.4)
             pygame.mixer.music.play(loops=-1)
-        if up_down == True:
+        if infinet_lives:
             if lives < 999999999999999999:
                 lives = 999999999999999999
         else:
