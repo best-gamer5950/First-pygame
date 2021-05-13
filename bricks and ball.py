@@ -2,17 +2,15 @@ import pygame
 import random
 pygame.init()
 
-
 #cheats/sound
 up_down = False
 start_laser = False
-infinet_laser = False
+infinet_laser = True
 infinet_chest = False
 infinet_lives = False
 
 music = False
 sound = False
-
 
 background = random.randint(1,8)
 OG_background = background
@@ -253,6 +251,7 @@ for row in range(0, NUM_ROWS):
         brick = Brick(row, col, brick_color)
         all_sprites.add(brick)
         bricks.add(brick)
+og_brick_color = brick_color
 
 running = True
 while running:
@@ -284,9 +283,15 @@ while running:
         brick_color = random.randint(1,6)
         for row in range(0, NUM_ROWS):
             for col in range(0, BRICKS_PER_ROW):
+                while True:
+                    if brick_color == og_brick_color:
+                        brick_color = random.randint(1,6)
+                    else:
+                        break
                 brick = Brick(row, col, brick_color)
                 all_sprites.add(brick)
                 bricks.add(brick)
+        og_brick_color = brick_color
         background = random.randint(1,8)
         while True:
             if background == OG_background:
