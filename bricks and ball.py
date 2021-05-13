@@ -183,7 +183,7 @@ class Laser(pygame.sprite.Sprite):
         #update code goes here
         keys = pygame.key.get_pressed()
         if not up_down:
-            if keys[pygame.K_UP] or keys[pygame.K_SPACE]:
+            if keys[pygame.K_UP] or keys[pygame.K_SPACE] or keys[pygame.K_w]:
                 self.laser_mover = False            
         else:
             if keys[pygame.K_SPACE]:
