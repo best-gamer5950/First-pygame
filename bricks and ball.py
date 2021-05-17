@@ -3,11 +3,12 @@ import random
 pygame.init()
 
 #cheats/sound
-up_down = False
+up_down = True
 start_laser = False
-infinet_laser = True
+infinet_laser = False
 infinet_chest = False
 infinet_lives = False
+limited_laser = True
 
 music = False
 sound = False
@@ -17,6 +18,7 @@ OG_background = background
 background_color = pygame.image.load(f"{background}_background.png")
 game_over = False
 level_win = False
+shots = 5
 infinet_chest_count = 20
 o = 0
 level = 1
@@ -235,7 +237,7 @@ ball = Ball()
 all_sprites.add(ball)
 paddle = Paddle()
 all_sprites.add(paddle)
-if start_laser or infinet_laser:
+if start_laser or infinet_laser or limited_laser:
     all_sprites.add(laser)
 if infinet_chest:
     box_group.add(box)
@@ -257,11 +259,17 @@ running = True
 while running:
     if infinet_chest:
         infinet_chest_count += 1
-    if infinet_laser:
-        if laser.rect.bottom <= screen_rect.top:
-            laser.rect.center = paddle.rect.center
-            laser.rect.bottom = paddle.rect.bottom
-            laser.laser_mover = True
+    if infinet_laser or limited_laser:
+        if infinet_laser or shots > 0:
+            if laser.rect.bottom <= screen_rect.top:
+                if shots == 1:
+                    shots -= 1
+                if not shots <= 1:
+                    laser.rect.center = paddle.rect.center
+                    laser.rect.bottom = paddle.rect.bottom
+                    laser.laser_mover = True
+                    if limited_laser:
+                        shots -= 1
             
     screen.blit(background_color,(0,0))
     clock.tick(FPS)
@@ -269,6 +277,8 @@ while running:
         if event.type == pygame.QUIT:
             running = False
     if level_win:
+        if limited_laser:
+            shots = 6
         if not infinet_chest:
             power_box = random.randint(1,4)
             if power_box == 1:
@@ -340,7 +350,10 @@ while running:
         ball.reset()
 
     all_sprites.draw(screen)
-    score_text = f"Score: {score} / Lives: {lives}/ Speed: {FPS}/level {level}"
+    if limited_laser:
+        score_text = f"Score: {score} / Lives: {lives}/ Speed: {FPS}/level: {level}/shots {shots}"
+    else:
+        score_text = f"Score: {score} / Lives: {lives}/ Speed: {FPS}/level {level}"
     draw_text(screen, score_text, (8, 8))
     
     pygame.display.flip()
