@@ -2,15 +2,21 @@ import pygame
 import random
 pygame.init()
 
-#cheats/sound
-up_down = True
-start_laser = False
-infinet_laser = False
-infinet_chest = False
-infinet_lives = False
-limited_laser = True
+#cheats
+up_down = False
 
+start_laser = False
+
+infinet_laser = False
+
+infinet_chest = False
+
+infinet_lives = False
+
+limited_laser = True
+#sound
 music = False
+
 sound = False
 
 background = random.randint(1,8)
@@ -18,7 +24,7 @@ OG_background = background
 background_color = pygame.image.load(f"{background}_background.png")
 game_over = False
 level_win = False
-shots = 5
+shots = 3
 infinet_chest_count = 20
 o = 0
 level = 1
@@ -35,6 +41,8 @@ screen = pygame.display.set_mode((600, 800))
 t_bricks = BRICKS_PER_ROW * NUM_ROWS
 screen_rect = screen.get_rect()
 clock = pygame.time.Clock()
+if infinet_laser and limited_laser:
+    limited_laser = False
 if start_laser and infinet_laser:
     start_laser = False
 if infinet_lives:
@@ -392,7 +400,7 @@ while running:
         elif power_up == 2:
             lives += 1
     if infinet_chest:
-        if infinet_chest_count >= 55:
+        if infinet_chest_count >= 53:
             box_group.add(box)
             all_sprites.add(box)
             infinet_chest_count = 0
