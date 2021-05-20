@@ -1,19 +1,21 @@
 import pygame
 import random
 pygame.init()
-
+pygame.mouse.get_visible()
 #cheats
 up_down = False
 
 start_laser = False
 
-infinet_laser = False
+infinet_laser = True
 
 infinet_chest = False
 
 infinet_lives = False
 
-limited_laser = True
+limited_laser = False
+
+control_ball = False
 #sound
 music = False
 
@@ -105,6 +107,17 @@ class Ball(pygame.sprite.Sprite):
         
     def update(self):
         #update code goes here
+        if control_ball:
+            keys = pygame.key.get_pressed()
+            if keys[pygame.K_d]:
+                self.rect.x += 15
+            elif keys[pygame.K_a]:
+                self.rect.x -= 15
+            elif keys[pygame.K_s]:
+                self.rect.y += 15
+            elif keys[pygame.K_w]:
+                self.rect.y -= 15
+
         if self.rect.right >= screen_rect.right:
             if sound == True:
                 self.wall_sound.play()
@@ -140,27 +153,30 @@ class Paddle(pygame.sprite.Sprite):
                 self.rect.x += 15
             elif keys[pygame.K_LEFT]:
                 self.rect.x -= 15
-            elif keys[pygame.K_a]:
-                self.rect.x -= 15
-            elif keys[pygame.K_d]:
-                self.rect.x += 15
-            elif keys[pygame.K_UP]:
+            if not control_ball:
+                if keys[pygame.K_a]:
+                    self.rect.x -= 15
+                elif keys[pygame.K_d]:
+                    self.rect.x += 15
+            if keys[pygame.K_UP]:
                 self.rect.y -= 15
             elif keys[pygame.K_DOWN]:
                 self.rect.y += 15
-            elif keys[pygame.K_s]:
-                self.rect.y += 15
-            elif keys[pygame.K_w]:
-                self.rect.y -= 15
+            if not control_ball:
+                if keys[pygame.K_s]:
+                    self.rect.y += 15
+                elif keys[pygame.K_w]:
+                    self.rect.y -= 15
         else:
             if keys[pygame.K_RIGHT]:
                 self.rect.x += 13
             elif keys[pygame.K_LEFT]:
                 self.rect.x -= 13
-            elif keys[pygame.K_a]:
-                self.rect.x -= 13
-            elif keys[pygame.K_d]:
-                self.rect.x += 13
+            if not control_ball:
+                if keys[pygame.K_a]:
+                    self.rect.x -= 13
+                elif keys[pygame.K_d]:
+                    self.rect.x += 13
 
         if self.rect.right >= screen_rect.right:
             self.rect.right = screen_rect.right
@@ -193,8 +209,12 @@ class Laser(pygame.sprite.Sprite):
         #update code goes here
         keys = pygame.key.get_pressed()
         if not up_down:
-            if keys[pygame.K_UP] or keys[pygame.K_SPACE] or keys[pygame.K_w]:
-                self.laser_mover = False            
+            if control_ball:
+                if keys[pygame.K_UP] or keys[pygame.K_SPACE]:
+                    self.laser_mover = False
+            else:
+                if keys[pygame.K_UP] or keys[pygame.K_SPACE] or keys[pygame.K_w]:
+                    self.laser_mover = False            
         else:
             if keys[pygame.K_SPACE]:
                 self.laser_mover = False
@@ -203,32 +223,34 @@ class Laser(pygame.sprite.Sprite):
         if self.laser_mover:
             keys = pygame.key.get_pressed()
             if up_down == True:
-                keys = pygame.key.get_pressed()
                 if keys[pygame.K_RIGHT]:
                     self.rect.x += 15
                 elif keys[pygame.K_LEFT]:
                     self.rect.x -= 15
-                elif keys[pygame.K_a]:
-                    self.rect.x -= 15
-                elif keys[pygame.K_d]:
-                    self.rect.x += 15
-                elif keys[pygame.K_UP]:
+                if not control_ball:
+                    if keys[pygame.K_a]:
+                        self.rect.x -= 15
+                    elif keys[pygame.K_d]:
+                        self.rect.x += 15
+                if keys[pygame.K_UP]:
                     self.rect.y -= 15
                 elif keys[pygame.K_DOWN]:
                     self.rect.y += 15
-                elif keys[pygame.K_s]:
-                    self.rect.y += 15
-                elif keys[pygame.K_w]:
-                    self.rect.y -= 15
+                if not control_ball:
+                    if keys[pygame.K_s]:
+                        self.rect.y += 15
+                    elif keys[pygame.K_w]:
+                        self.rect.y -= 15
             else:
                 if keys[pygame.K_RIGHT]:
                     self.rect.x += 13
                 elif keys[pygame.K_LEFT]:
                     self.rect.x -= 13
-                elif keys[pygame.K_a]:
-                    self.rect.x -= 13
-                elif keys[pygame.K_d]:
-                    self.rect.x += 13
+                if not control_ball:
+                    if keys[pygame.K_a]:
+                        self.rect.x -= 13
+                    elif keys[pygame.K_d]:
+                        self.rect.x += 13
 
             if self.rect.right >= screen_rect.right:
                 self.rect.right = screen_rect.right
