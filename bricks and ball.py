@@ -1,8 +1,11 @@
 import pygame
+import time
 import random
 pygame.init()
 pygame.mouse.get_visible()
 #cheats
+hard_mode = False
+
 up_down = False
 
 start_laser = False
@@ -31,7 +34,10 @@ infinet_chest_count = 20
 o = 0
 level = 1
 score = 0
-lives = 3
+if hard_mode:
+    lives = 1
+else:
+    lives = 3
 BLANK_ROWS = 2 
 FPS = 70
 BLUE = (0 , 0, 255)
@@ -148,6 +154,25 @@ class Paddle(pygame.sprite.Sprite):
         
     def update(self):
         keys = pygame.key.get_pressed()
+        
+        #pause
+        if keys[pygame.K_m]:
+            while True:
+                time.sleep(0.1)
+                resume = input("to resume type start or to stop type stop: ")
+                if resume == "start" or resume == "START" or resume == "Start":
+                    time.sleep(1)
+                    print("3")
+                    time.sleep(1)
+                    print("2")
+                    time.sleep(1)
+                    print("1")
+                    break
+                if resume == "Stop" or resume == "stop" or resume == "STOP":
+                    pygame.quit()
+                    break
+
+
         if up_down == True:
             if keys[pygame.K_RIGHT]:
                 self.rect.x += 15
@@ -208,6 +233,9 @@ class Laser(pygame.sprite.Sprite):
     def update(self):
         #update code goes here
         keys = pygame.key.get_pressed()
+        
+                
+                
         if not up_down:
             if control_ball:
                 if keys[pygame.K_UP] or keys[pygame.K_SPACE]:
