@@ -156,7 +156,7 @@ class Paddle(pygame.sprite.Sprite):
         keys = pygame.key.get_pressed()
         
         #pause
-        if keys[pygame.K_m]:
+        if keys[pygame.K_p]:
             while True:
                 time.sleep(0.1)
                 resume = input("to resume type start or to stop type stop: ")
