@@ -4,6 +4,8 @@ import random
 pygame.init()
 pygame.mouse.get_visible()
 #cheats
+speed_faster = False
+
 hard_mode = False
 
 up_down = False
@@ -38,8 +40,11 @@ if hard_mode:
     lives = 1
 else:
     lives = 3
-BLANK_ROWS = 2 
-FPS = 70
+BLANK_ROWS = 2
+if speed_faster:
+    FPS = 100
+else:
+    FPS = 70
 BLUE = (0 , 0, 255)
 BRICKS_PER_ROW = 10
 NUM_ROWS = 5
@@ -342,8 +347,8 @@ while running:
             if power_box == 1:
                 box_group.add(box)
                 all_sprites.add(box)
-        if infinet_laser:
-            FPS += 5
+        if speed_faster:
+            FPS += 50
         else:
             FPS += 10
         level += 1
